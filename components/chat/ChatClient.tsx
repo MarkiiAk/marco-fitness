@@ -82,55 +82,63 @@ export default function ChatClient({ initialMessages, fecha }: { initialMessages
 
         {messages.map((msg, i) => (
           <div key={msg.id ?? i}>
-          {/* Si es mensaje del usuario pending, mostrar burbuja de asistente procesando debajo */}
-          <div className={cn('flex', msg.role === 'user' ? 'justify-end' : 'justify-start')}>
-            <div className={cn('max-w-[85%]', msg.role === 'user' ? 'items-end' : 'items-start')}>
-              {/* Badge agente */}
-              {msg.role === 'assistant' && msg.agent && (
-                <p className={cn('text-[10px] font-semibold mb-1 px-1', AGENT_LABELS[msg.agent]?.color ?? 'text-zinc-400')}>
-                  {AGENT_LABELS[msg.agent]?.label ?? msg.agent}
-                </p>
-              )}
-
-              <div className={cn(
-                'px-4 py-3 text-sm leading-relaxed',
-                msg.role === 'user'
-                  ? 'bg-emerald-500/10 border border-emerald-500/20 text-zinc-100 rounded-t-2xl rounded-bl-2xl rounded-br-sm'
-                  : 'bg-zinc-900/80 border border-white/[0.06] text-zinc-200 rounded-t-2xl rounded-br-2xl rounded-bl-sm'
-              )}>
-                {/* Mensaje del asistente procesando */}
-                {msg.role === 'assistant' && (msg.status === 'pending' || msg.status === 'processing') ? (
-                  <div className="flex items-center gap-1.5">
-                    <div className="flex gap-1">
-                      {[0, 1, 2].map(i => (
-                        <div key={i} className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-pulse"
-                             style={{ animationDelay: `${i * 150}ms` }} />
-                      ))}
+            {/* Separador de fecha */}
+            {msg.role === 'date-separator' ? (
+              <div className="flex items-center gap-3 my-4">
+                <div className="flex-1 h-px bg-white/[0.06]" />
+                <span className="text-[10px] font-semibold text-zinc-600 uppercase tracking-wider capitalize">
+                  {msg.content}
+                </span>
+                <div className="flex-1 h-px bg-white/[0.06]" />
+              </div>
+            ) : (
+              <>
+                <div className={cn('flex', msg.role === 'user' ? 'justify-end' : 'justify-start')}>
+                  <div className={cn('max-w-[85%]', msg.role === 'user' ? 'items-end' : 'items-start')}>
+                    {msg.role === 'assistant' && msg.agent && (
+                      <p className={cn('text-[10px] font-semibold mb-1 px-1', AGENT_LABELS[msg.agent]?.color ?? 'text-zinc-400')}>
+                        {AGENT_LABELS[msg.agent]?.label ?? msg.agent}
+                      </p>
+                    )}
+                    <div className={cn(
+                      'px-4 py-3 text-sm leading-relaxed',
+                      msg.role === 'user'
+                        ? 'bg-emerald-500/10 border border-emerald-500/20 text-zinc-100 rounded-t-2xl rounded-bl-2xl rounded-br-sm'
+                        : 'bg-zinc-900/80 border border-white/[0.06] text-zinc-200 rounded-t-2xl rounded-br-2xl rounded-bl-sm'
+                    )}>
+                      {msg.role === 'assistant' && (msg.status === 'pending' || msg.status === 'processing') ? (
+                        <div className="flex items-center gap-1.5">
+                          <div className="flex gap-1">
+                            {[0, 1, 2].map(j => (
+                              <div key={j} className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-pulse"
+                                   style={{ animationDelay: `${j * 150}ms` }} />
+                            ))}
+                          </div>
+                          <span className="text-zinc-600 text-xs">Procesando ~5 min</span>
+                        </div>
+                      ) : (
+                        <p className="whitespace-pre-wrap">{msg.content}</p>
+                      )}
                     </div>
-                    <span className="text-zinc-600 text-xs">Procesando ~5 min</span>
                   </div>
-                ) : (
-                  <p className="whitespace-pre-wrap">{msg.content}</p>
-                )}
-              </div>
-            </div>
-          </div>
-          {/* Burbuja procesando del asistente cuando el mensaje del usuario está pendiente */}
-          {msg.role === 'user' && (msg.status === 'pending' || msg.status === 'processing') && (
-            <div className="flex justify-start mt-2">
-              <div className="px-4 py-3 text-sm bg-zinc-900/80 border border-white/[0.06] rounded-t-2xl rounded-br-2xl rounded-bl-sm">
-                <div className="flex items-center gap-1.5">
-                  <div className="flex gap-1">
-                    {[0, 1, 2].map(j => (
-                      <div key={j} className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-pulse"
-                           style={{ animationDelay: `${j * 150}ms` }} />
-                    ))}
-                  </div>
-                  <span className="text-zinc-600 text-xs">Procesando ~5 min</span>
                 </div>
-              </div>
-            </div>
-          )}
+                {msg.role === 'user' && (msg.status === 'pending' || msg.status === 'processing') && (
+                  <div className="flex justify-start mt-2">
+                    <div className="px-4 py-3 text-sm bg-zinc-900/80 border border-white/[0.06] rounded-t-2xl rounded-br-2xl rounded-bl-sm">
+                      <div className="flex items-center gap-1.5">
+                        <div className="flex gap-1">
+                          {[0, 1, 2].map(j => (
+                            <div key={j} className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-pulse"
+                                 style={{ animationDelay: `${j * 150}ms` }} />
+                          ))}
+                        </div>
+                        <span className="text-zinc-600 text-xs">Procesando ~5 min</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         ))}
         <div ref={bottomRef} />
