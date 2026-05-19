@@ -239,7 +239,7 @@ export default function RegistrarComidaPage() {
       <div className="relative overflow-hidden rounded-2xl bg-zinc-900/80 border border-white/[0.06] p-4">
         <p className="text-[11px] font-semibold text-zinc-500 uppercase tracking-[0.08em] mb-3">Alimento libre</p>
         <p className="text-xs text-zinc-600 mb-3">Si no está en el catálogo, ponlo aquí con los datos que tengas</p>
-        <ManualFoodEntry onAdd={(item) => setItems(prev => [...prev, item])} />
+        <ManualFoodEntry tipo={tipo} />
       </div>
 
       {/* Items agregados */}

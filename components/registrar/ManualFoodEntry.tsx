@@ -1,99 +1,60 @@
 'use client'
 
 import { useState } from 'react'
-import { Plus } from 'lucide-react'
+import { MessageCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
-interface ItemAgregado {
-  id: string
-  nombre: string
-  porcion_g: number
-  kcal: number
-  proteina_g: number
-  carbs_g: number
-  grasa_g: number
-  cantidad_g: number
-  kcal_calc: number
-  proteina_calc: number
-}
-
-export default function ManualFoodEntry({ onAdd }: { onAdd: (item: ItemAgregado) => void }) {
+export default function ManualFoodEntry({ tipo }: { tipo: string }) {
+  const router = useRouter()
   const [nombre, setNombre] = useState('')
   const [cantidad, setCantidad] = useState('')
-  const [kcal, setKcal] = useState('')
-  const [prot, setProt] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  function handleAdd() {
-    if (!nombre || !cantidad || !kcal) return
+  async function handleSend() {
+    if (!nombre.trim()) return
+    setLoading(true)
 
-    const item: ItemAgregado = {
-      id: 'manual-' + Date.now(),
-      nombre,
-      porcion_g: parseFloat(cantidad),
-      kcal: parseFloat(kcal),
-      proteina_g: parseFloat(prot || '0'),
-      carbs_g: 0,
-      grasa_g: 0,
-      cantidad_g: parseFloat(cantidad),
-      kcal_calc: parseFloat(kcal),
-      proteina_calc: parseFloat(prot || '0'),
-    }
+    const content = `Registra en mi ${tipo} de hoy: ${nombre.trim()}${cantidad ? ` (${cantidad}g)` : ''}. Busca los macros y agrégalo.`
 
-    onAdd(item)
-    setNombre('')
-    setCantidad('')
-    setKcal('')
-    setProt('')
+    await fetch('/api/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content }),
+    })
+
+    setLoading(false)
+    router.push('/chat')
   }
 
   return (
-    <div className="space-y-2">
-      <input
-        type="text"
-        value={nombre}
-        onChange={e => setNombre(e.target.value)}
-        placeholder="Nombre del alimento"
-        className="w-full px-3 py-2 bg-zinc-800 border border-white/[0.06] rounded-xl text-zinc-200 placeholder-zinc-600 text-sm focus:outline-none focus:border-emerald-500/50"
-      />
-      <div className="grid grid-cols-3 gap-2">
-        <div>
-          <label className="text-[10px] text-zinc-600 mb-1 block">Gramos</label>
-          <input
-            type="number"
-            value={cantidad}
-            onChange={e => setCantidad(e.target.value)}
-            placeholder="100"
-            className="w-full px-2 py-1.5 bg-zinc-800 border border-white/[0.06] rounded-lg text-zinc-200 text-sm text-center focus:outline-none focus:border-emerald-500/50"
-          />
-        </div>
-        <div>
-          <label className="text-[10px] text-zinc-600 mb-1 block">kcal</label>
-          <input
-            type="number"
-            value={kcal}
-            onChange={e => setKcal(e.target.value)}
-            placeholder="0"
-            className="w-full px-2 py-1.5 bg-zinc-800 border border-white/[0.06] rounded-lg text-zinc-200 text-sm text-center focus:outline-none focus:border-emerald-500/50"
-          />
-        </div>
-        <div>
-          <label className="text-[10px] text-zinc-600 mb-1 block">Proteína (g)</label>
-          <input
-            type="number"
-            value={prot}
-            onChange={e => setProt(e.target.value)}
-            placeholder="0"
-            className="w-full px-2 py-1.5 bg-zinc-800 border border-white/[0.06] rounded-lg text-zinc-200 text-sm text-center focus:outline-none focus:border-emerald-500/50"
-          />
-        </div>
+    <div className="space-y-3">
+      <p className="text-xs text-zinc-600">
+        Escribe el nombre y yo busco los macros — llega en ~5 min al chat.
+      </p>
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={nombre}
+          onChange={e => setNombre(e.target.value)}
+          placeholder="Ej: huevito Kinder, taco de canasta..."
+          className="flex-1 px-3 py-2 bg-zinc-800 border border-white/[0.06] rounded-xl text-zinc-200 placeholder-zinc-600 text-sm focus:outline-none focus:border-emerald-500/50"
+        />
+        <input
+          type="number"
+          value={cantidad}
+          onChange={e => setCantidad(e.target.value)}
+          placeholder="g"
+          className="w-16 px-2 py-2 bg-zinc-800 border border-white/[0.06] rounded-xl text-zinc-200 placeholder-zinc-600 text-sm text-center focus:outline-none focus:border-emerald-500/50"
+        />
       </div>
       <button
         type="button"
-        onClick={handleAdd}
-        disabled={!nombre || !cantidad || !kcal}
-        className="w-full py-2 bg-zinc-800 hover:bg-zinc-700 disabled:opacity-40 border border-white/[0.06] rounded-xl text-sm text-zinc-300 font-medium transition-colors flex items-center justify-center gap-2"
+        onClick={handleSend}
+        disabled={!nombre.trim() || loading}
+        className="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 disabled:opacity-40 border border-white/[0.06] rounded-xl text-sm text-zinc-300 font-medium transition-colors flex items-center justify-center gap-2"
       >
-        <Plus size={14} />
-        Agregar alimento
+        <MessageCircle size={14} />
+        {loading ? 'Enviando...' : 'Mandar al chat para registrar'}
       </button>
     </div>
   )
