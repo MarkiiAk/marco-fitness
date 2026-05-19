@@ -16,7 +16,8 @@ export function formatDateShort(date: string | Date): string {
 }
 
 export function todayISO(): string {
-  return new Date().toISOString().split('T')[0]
+  // Siempre usar timezone de México (UTC-6) para determinar "hoy"
+  return new Date().toLocaleDateString('en-CA', { timeZone: 'America/Mexico_City' })
 }
 
 export function formatKcal(kcal: number): string {
