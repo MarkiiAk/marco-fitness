@@ -81,7 +81,9 @@ export default function ChatClient({ initialMessages, fecha }: { initialMessages
         )}
 
         {messages.map((msg, i) => (
-          <div key={msg.id ?? i} className={cn('flex', msg.role === 'user' ? 'justify-end' : 'justify-start')}>
+          <div key={msg.id ?? i}>
+          {/* Si es mensaje del usuario pending, mostrar burbuja de asistente procesando debajo */}
+          <div className={cn('flex', msg.role === 'user' ? 'justify-end' : 'justify-start')}>
             <div className={cn('max-w-[85%]', msg.role === 'user' ? 'items-end' : 'items-start')}>
               {/* Badge agente */}
               {msg.role === 'assistant' && msg.agent && (
@@ -96,7 +98,8 @@ export default function ChatClient({ initialMessages, fecha }: { initialMessages
                   ? 'bg-emerald-500/10 border border-emerald-500/20 text-zinc-100 rounded-t-2xl rounded-bl-2xl rounded-br-sm'
                   : 'bg-zinc-900/80 border border-white/[0.06] text-zinc-200 rounded-t-2xl rounded-br-2xl rounded-bl-sm'
               )}>
-                {msg.status === 'pending' || msg.status === 'processing' ? (
+                {/* Mensaje del asistente procesando */}
+                {msg.role === 'assistant' && (msg.status === 'pending' || msg.status === 'processing') ? (
                   <div className="flex items-center gap-1.5">
                     <div className="flex gap-1">
                       {[0, 1, 2].map(i => (
@@ -111,6 +114,23 @@ export default function ChatClient({ initialMessages, fecha }: { initialMessages
                 )}
               </div>
             </div>
+          </div>
+          {/* Burbuja procesando del asistente cuando el mensaje del usuario está pendiente */}
+          {msg.role === 'user' && (msg.status === 'pending' || msg.status === 'processing') && (
+            <div className="flex justify-start mt-2">
+              <div className="px-4 py-3 text-sm bg-zinc-900/80 border border-white/[0.06] rounded-t-2xl rounded-br-2xl rounded-bl-sm">
+                <div className="flex items-center gap-1.5">
+                  <div className="flex gap-1">
+                    {[0, 1, 2].map(j => (
+                      <div key={j} className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-pulse"
+                           style={{ animationDelay: `${j * 150}ms` }} />
+                    ))}
+                  </div>
+                  <span className="text-zinc-600 text-xs">Procesando ~5 min</span>
+                </div>
+              </div>
+            </div>
+          )}
           </div>
         ))}
         <div ref={bottomRef} />

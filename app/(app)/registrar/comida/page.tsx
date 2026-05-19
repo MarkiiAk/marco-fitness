@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Search, Plus, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import ManualFoodEntry from '@/components/registrar/ManualFoodEntry'
 
 function localToday() {
   const now = new Date()
@@ -225,10 +226,20 @@ export default function RegistrarComidaPage() {
               </div>
             </div>
           ))}
-          {results.length === 0 && (
-            <p className="px-4 py-4 text-sm text-zinc-600">Sin resultados para "{query}"</p>
+          {results.length === 0 && query && (
+            <div className="px-4 py-3">
+              <p className="text-sm text-zinc-600 mb-2">"{query}" no está en el catálogo.</p>
+              <p className="text-xs text-zinc-700">Agrégalo manualmente abajo ↓</p>
+            </div>
           )}
         </div>
+      </div>
+
+      {/* Agregar alimento libre (no está en catálogo) */}
+      <div className="relative overflow-hidden rounded-2xl bg-zinc-900/80 border border-white/[0.06] p-4">
+        <p className="text-[11px] font-semibold text-zinc-500 uppercase tracking-[0.08em] mb-3">Alimento libre</p>
+        <p className="text-xs text-zinc-600 mb-3">Si no está en el catálogo, ponlo aquí con los datos que tengas</p>
+        <ManualFoodEntry onAdd={(item) => setItems(prev => [...prev, item])} />
       </div>
 
       {/* Items agregados */}

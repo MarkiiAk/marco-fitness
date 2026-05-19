@@ -214,10 +214,11 @@ export default function RegistrarEntrenoPage() {
         )}
 
         {/* Apple Watch */}
-        <div className="bg-zinc-900 rounded-xl p-4 border border-zinc-800 space-y-3">
-          <h2 className="text-sm font-semibold text-zinc-300">Apple Watch</h2>
+        <div className="relative overflow-hidden rounded-2xl p-5 bg-zinc-900/80 border border-white/[0.06] space-y-3">
+          <h2 className="text-sm font-semibold text-zinc-200">Apple Watch</h2>
+          <p className="text-xs text-zinc-600">Pon el total de kcal del día que marca el Watch (incluye metabolismo + actividad)</p>
           <div className="flex items-center gap-3">
-            <label className="text-sm text-zinc-400 shrink-0">Calorías activas</label>
+            <label className="text-sm text-zinc-400 shrink-0">Total kcal del día</label>
             <input
               type="number"
               value={caloriasWatch}
