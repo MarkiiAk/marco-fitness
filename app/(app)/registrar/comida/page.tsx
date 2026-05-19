@@ -3,8 +3,13 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Search, Plus, X, ChevronDown } from 'lucide-react'
+import { Search, Plus, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+
+function localToday() {
+  const now = new Date()
+  return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`
+}
 
 type TipoComida = 'desayuno' | 'comida' | 'cena' | 'snack' | 'suplemento'
 
@@ -45,6 +50,7 @@ function calcMacros(food: FoodItem, cantidadG: number) {
 export default function RegistrarComidaPage() {
   const router = useRouter()
   const supabase = createClient()
+  const [fecha, setFecha] = useState(localToday())
   const [tipo, setTipo] = useState<TipoComida>('comida')
   const [catalog, setCatalog] = useState<FoodItem[]>([])
   const [query, setQuery] = useState('')
@@ -117,6 +123,7 @@ export default function RegistrarComidaPage() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        fecha,
         tipo,
         notas: notas || null,
         items: items.map(item => ({
@@ -140,6 +147,18 @@ export default function RegistrarComidaPage() {
       <div className="pt-2">
         <p className="text-[11px] font-semibold text-zinc-600 uppercase tracking-[0.1em] mb-1">Registro</p>
         <h1 className="text-3xl font-bold text-zinc-50 tracking-tight leading-none">Comida</h1>
+      </div>
+
+      {/* Selector de fecha */}
+      <div className="relative overflow-hidden rounded-2xl px-4 py-3 bg-zinc-900/80 border border-white/[0.06] flex items-center gap-3">
+        <span className="text-[11px] font-semibold text-zinc-500 uppercase tracking-[0.08em] shrink-0">Fecha</span>
+        <input
+          type="date"
+          value={fecha}
+          onChange={e => setFecha(e.target.value)}
+          max={localToday()}
+          className="flex-1 bg-transparent text-zinc-200 text-sm focus:outline-none"
+        />
       </div>
 
       {/* Selector de tipo */}

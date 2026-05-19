@@ -2,11 +2,17 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Scale, ChevronDown } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
+
+function localToday() {
+  const now = new Date()
+  return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`
+}
 
 export default function RegistrarPesoPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [fecha, setFecha] = useState(localToday())
   const [showMedidas, setShowMedidas] = useState(false)
   const [showBascula, setShowBascula] = useState(false)
   const [form, setForm] = useState({
@@ -37,6 +43,7 @@ export default function RegistrarPesoPage() {
     setLoading(true)
 
     const payload = {
+      fecha,
       peso_kg: parseFloat(form.peso_kg),
       cintura_cm: form.cintura_cm ? parseFloat(form.cintura_cm) : null,
       cadera_cm: form.cadera_cm ? parseFloat(form.cadera_cm) : null,
@@ -65,13 +72,27 @@ export default function RegistrarPesoPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-xl font-bold text-zinc-50">Registrar peso</h1>
-        <p className="text-sm text-zinc-500 mt-1">Medidas matutinas del día</p>
+    <div className="space-y-5">
+      <div className="pt-2">
+        <p className="text-[11px] font-semibold text-zinc-600 uppercase tracking-[0.1em] mb-1">Registro</p>
+        <h1 className="text-3xl font-bold text-zinc-50 tracking-tight leading-none">Peso</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Selector de fecha */}
+        <div className="relative overflow-hidden rounded-2xl p-4 bg-zinc-900/80 border border-white/[0.06]">
+          <label className="block text-[11px] font-semibold text-zinc-500 uppercase tracking-[0.08em] mb-2">
+            Fecha del registro
+          </label>
+          <input
+            type="date"
+            value={fecha}
+            onChange={e => setFecha(e.target.value)}
+            max={localToday()}
+            className="w-full bg-transparent text-zinc-200 text-sm focus:outline-none"
+          />
+        </div>
+
         {/* Peso principal */}
         <div className="bg-zinc-900 rounded-xl p-4 border border-zinc-800">
           <label className="block text-sm font-medium text-zinc-400 mb-2">

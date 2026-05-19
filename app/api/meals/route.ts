@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
   const body = await request.json()
   const { items, ...mealData } = body
-  const today = todayISO()
+  const today = body.fecha ?? todayISO()
 
   // Calcular totales de la comida
   const totales = (items ?? []).reduce(

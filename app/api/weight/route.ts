@@ -8,13 +8,13 @@ export async function POST(request: Request) {
   if (!user) return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
 
   const body = await request.json()
-  const today = todayISO()
+  const fecha = body.fecha ?? todayISO()
 
   const { data, error } = await supabase
     .from('weight_records')
     .upsert({
       user_id: user.id,
-      fecha: today,
+      fecha,
       ...body,
     }, { onConflict: 'user_id,fecha' })
     .select()
@@ -22,14 +22,13 @@ export async function POST(request: Request) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // Crear o actualizar daily_summary con los datos del día
   await supabase
     .from('daily_summary')
     .upsert({
       user_id: user.id,
-      fecha: today,
-      dia_semana: getDiaSemana(today),
-      tipo_dia: getTipoDia(today),
+      fecha,
+      dia_semana: getDiaSemana(fecha),
+      tipo_dia: getTipoDia(fecha),
       semana_numero: getWeekNumber(),
     }, { onConflict: 'user_id,fecha' })
 

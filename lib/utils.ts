@@ -16,7 +16,7 @@ export function formatDateShort(date: string | Date): string {
 }
 
 export function todayISO(): string {
-  return new Date().toLocaleDateString('en-CA', { timeZone: 'America/Mexico_City' })
+  return new Date().toISOString().split('T')[0]
 }
 
 export function formatKcal(kcal: number): string {

@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
   const body = await request.json()
   const { ejercicios, ...workoutData } = body
-  const today = todayISO()
+  const today = body.fecha ?? todayISO()
 
   // Insertar el entreno
   const { data: workout, error } = await supabase
