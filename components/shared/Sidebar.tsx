@@ -13,8 +13,17 @@ const nav = [
   { href: '/perfil',     label: 'Perfil',     icon: User },
 ]
 
-export default function Sidebar() {
+const PESO_INICIAL = 92.1
+const PESO_META    = 84.5
+
+export default function Sidebar({ pesoActual = PESO_INICIAL }: { pesoActual?: number }) {
   const pathname = usePathname()
+
+  // Progreso: cuánto bajó del total que tiene que bajar
+  const totalBajar   = PESO_INICIAL - PESO_META                          // 7.6 kg
+  const bajadoHasta  = Math.max(0, PESO_INICIAL - pesoActual)            // lo que ya bajó
+  const pct          = Math.min(100, Math.round((bajadoHasta / totalBajar) * 100))
+  const faltanKg     = Math.max(0, pesoActual - PESO_META).toFixed(1)
 
   return (
     <div className="flex flex-col h-full bg-zinc-950 border-r border-white/[0.06] px-3 py-6">
@@ -56,16 +65,26 @@ export default function Sidebar() {
 
       {/* Meta progreso */}
       <div className="mx-3 p-3 rounded-xl bg-zinc-900/60 border border-white/[0.06]">
-        <p className="text-[10px] font-semibold text-zinc-600 uppercase tracking-wider mb-2">Meta</p>
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-[10px] font-semibold text-zinc-600 uppercase tracking-wider">Meta</p>
+          <span className="text-[10px] font-semibold text-emerald-500 tabular-nums">{pct}%</span>
+        </div>
         <div className="flex items-baseline gap-1">
-          <span className="text-lg font-semibold text-zinc-50" style={{ fontFamily: 'var(--font-geist-mono)' }}>84.5</span>
+          <span className="text-lg font-semibold text-zinc-50" style={{ fontFamily: 'var(--font-geist-mono)' }}>
+            {pesoActual}
+          </span>
           <span className="text-xs text-zinc-500">kg</span>
         </div>
-        <div className="mt-2 h-1 bg-zinc-800 rounded-full overflow-hidden">
-          <div className="h-full bg-emerald-500 rounded-full shadow-[0_0_6px_rgba(16,185,129,0.5)]"
-               style={{ width: `${Math.round(((92.1 - 92.1) / (92.1 - 84.5)) * 100)}%` }} />
+        {/* Barra de progreso */}
+        <div className="mt-2 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-emerald-500 rounded-full shadow-[0_0_6px_rgba(16,185,129,0.5)] transition-all duration-700"
+            style={{ width: `${pct}%` }}
+          />
         </div>
-        <p className="text-[10px] text-zinc-600 mt-1.5">92.1 → 84.5 kg</p>
+        <p className="text-[10px] text-zinc-600 mt-1.5">
+          {PESO_INICIAL} → {PESO_META} kg · faltan {faltanKg} kg
+        </p>
       </div>
     </div>
   )
