@@ -17,7 +17,18 @@ export default async function DashboardPage() {
 
   const today = todayISO()
 
-  // Cargar datos base primero (daily_summary necesita semana_numero)
+  // Calcular lunes y domingo de la semana actual (independiente de daily_summary)
+  const todayDate = new Date()
+  const dayOfWeek = todayDate.getDay()
+  const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek
+  const monday = new Date(todayDate)
+  monday.setDate(todayDate.getDate() + diffToMonday)
+  const mondayStr = monday.toISOString().split('T')[0]
+  const sunday = new Date(monday)
+  sunday.setDate(monday.getDate() + 6)
+  const sundayStr = sunday.toISOString().split('T')[0]
+
+  // Cargar datos base primero (daily_summary de hoy para kcal/proteína)
   const { data: todaySummary } = await supabase
     .from('daily_summary').select('*').eq('user_id', user.id).eq('fecha', today).maybeSingle()
 
@@ -33,7 +44,7 @@ export default async function DashboardPage() {
     supabase.from('weight_records').select('*').eq('user_id', user.id).eq('fecha', today).maybeSingle(),
     supabase.from('weight_records').select('*').eq('user_id', user.id).order('fecha', { ascending: false }).limit(2),
     supabase.from('weight_records').select('fecha,peso_kg,cintura_cm').eq('user_id', user.id).order('fecha', { ascending: true }).limit(60),
-    supabase.from('daily_summary').select('*').eq('user_id', user.id).eq('semana_numero', (todaySummary as { semana_numero?: number } | null)?.semana_numero ?? 1).order('fecha', { ascending: true }),
+    supabase.from('daily_summary').select('*').eq('user_id', user.id).gte('fecha', mondayStr).lte('fecha', sundayStr).order('fecha', { ascending: true }),
     supabase.from('workouts').select('*').eq('user_id', user.id).eq('fecha', today).maybeSingle(),
     supabase.from('user_profile').select('*').eq('user_id', user.id).maybeSingle(),
   ])

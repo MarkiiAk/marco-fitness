@@ -24,14 +24,27 @@ export default async function WorkoutWeekView({ userId }: WorkoutWeekViewProps) 
     return d.toISOString().split('T')[0]
   })
 
-  const { data: workouts } = await supabase
-    .from('workouts')
-    .select('fecha,tipo')
-    .eq('user_id', userId)
-    .gte('fecha', weekDates[0])
-    .lte('fecha', weekDates[6])
+  const [{ data: workouts }, { data: summaries }] = await Promise.all([
+    supabase
+      .from('workouts')
+      .select('fecha,tipo')
+      .eq('user_id', userId)
+      .gte('fecha', weekDates[0])
+      .lte('fecha', weekDates[6]),
+    supabase
+      .from('daily_summary')
+      .select('fecha,dia_cerrado')
+      .eq('user_id', userId)
+      .gte('fecha', weekDates[0])
+      .lte('fecha', weekDates[6]),
+  ])
 
   const workoutMap = new Map(workouts?.map((w: { fecha: string; tipo: string }) => [w.fecha, w.tipo]) ?? [])
+  const closedDays = new Set(
+    summaries
+      ?.filter((s: { fecha: string; dia_cerrado: boolean }) => s.dia_cerrado)
+      .map((s: { fecha: string; dia_cerrado: boolean }) => s.fecha) ?? []
+  )
 
   return (
     <div className="relative overflow-hidden rounded-2xl p-5 bg-zinc-900/80 border border-white/[0.06]">
@@ -42,7 +55,10 @@ export default async function WorkoutWeekView({ userId }: WorkoutWeekViewProps) 
           const isToday = fecha === todayStr
           const isPast = fecha < todayStr
           const workout = workoutMap.get(fecha)
+          const isClosed = closedDays.has(fecha)
           const isRestDay = !isGymDay
+          // Un día de gym es exitoso si hay workout registrado O si el día fue cerrado en daily_summary
+          const isSuccess = isGymDay && (!!workout || isClosed)
 
           return (
             <div key={fecha} className="flex flex-col items-center gap-1.5">
@@ -54,13 +70,13 @@ export default async function WorkoutWeekView({ userId }: WorkoutWeekViewProps) 
               </span>
               <div className={cn(
                 'w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold transition-all',
-                workout && 'bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/40',
-                !workout && isToday && isGymDay && 'bg-amber-500/10 text-amber-400 ring-1 ring-amber-500/40',
-                !workout && isPast && isGymDay && 'bg-rose-500/10 text-rose-500',
-                !workout && !isPast && isGymDay && !isToday && 'bg-zinc-800/40 text-zinc-600',
+                isSuccess && 'bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/40',
+                !isSuccess && isToday && isGymDay && 'bg-amber-500/10 text-amber-400 ring-1 ring-amber-500/40',
+                !isSuccess && isPast && isGymDay && 'bg-rose-500/10 text-rose-500',
+                !isSuccess && !isPast && isGymDay && !isToday && 'bg-zinc-800/40 text-zinc-600',
                 isRestDay && 'bg-transparent text-zinc-700',
               )}>
-                {workout ? '✓' : isRestDay ? '·' : isToday ? '→' : isPast ? '✗' : '·'}
+                {isSuccess ? '✓' : isRestDay ? '·' : isToday ? '→' : isPast ? '✗' : '·'}
               </div>
             </div>
           )
