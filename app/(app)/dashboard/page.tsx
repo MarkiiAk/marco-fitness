@@ -17,8 +17,9 @@ export default async function DashboardPage() {
 
   const today = todayISO()
 
-  // Calcular lunes y domingo de la semana actual (independiente de daily_summary)
-  const todayDate = new Date()
+  // Calcular lunes y domingo de la semana actual en timezone CDMX
+  // Usar today (ya calculado con todayISO en CDMX) en lugar de new Date() UTC
+  const todayDate = new Date(today + 'T12:00:00')
   const dayOfWeek = todayDate.getDay()
   const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek
   const monday = new Date(todayDate)
@@ -77,7 +78,7 @@ export default async function DashboardPage() {
       {/* Header — invertido estilo Oura/Apple Fitness */}
       <div className="pt-2 pb-1">
         <p className="text-[11px] font-semibold text-zinc-600 uppercase tracking-[0.1em] mb-1 capitalize">
-          {new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })}
+          {new Date(today + 'T12:00:00').toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })}
         </p>
         <h1 className="text-3xl font-bold text-zinc-50 tracking-tight leading-none">Hoy</h1>
       </div>

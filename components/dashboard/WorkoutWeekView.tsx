@@ -10,8 +10,9 @@ interface WorkoutWeekViewProps {
 
 export default async function WorkoutWeekView({ userId }: WorkoutWeekViewProps) {
   const supabase = await createClient()
-  const today = new Date()
   const todayStr = todayISO()
+  // Usar todayStr (CDMX) en lugar de new Date() (UTC) para evitar bug de timezone
+  const today = new Date(todayStr + 'T12:00:00')
 
   const day = today.getDay()
   const diff = day === 0 ? -6 : 1 - day
