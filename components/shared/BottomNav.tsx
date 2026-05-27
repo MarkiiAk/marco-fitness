@@ -16,29 +16,44 @@ export default function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="flex items-center justify-around px-2 py-3
-                    bg-zinc-950/80 backdrop-blur-2xl
-                    border-t border-white/[0.04]">
+    <nav
+      className="flex items-center justify-around px-2 py-3 border-t border-white/[0.05]"
+      style={{
+        backgroundColor: 'rgba(13,11,9,0.88)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+      }}
+    >
       {tabs.map(({ href, icon: Icon }) => {
         const active = pathname.startsWith(href)
         return (
           <Link
             key={href}
             href={href}
-            className={cn(
-              'flex flex-col items-center gap-1.5 px-5 py-1.5 min-h-[44px] justify-center',
-              'nav-tab'
-            )}
+            className="relative flex flex-col items-center justify-center min-h-[44px] px-5 py-1.5"
           >
-            <Icon
-              size={20}
-              strokeWidth={active ? 2 : 1.4}
-              className={active ? 'text-emerald-400' : 'text-zinc-700'}
-            />
-            {/* Dot indicador activo — Oura style */}
+            {/* Halo verde debajo del icono activo — prende y apaga */}
+            {active && (
+              <div
+                className="tab-active-glow absolute inset-0 rounded-2xl pointer-events-none"
+                style={{
+                  background: 'radial-gradient(ellipse 80% 60% at 50% 60%, rgba(16,185,129,0.18) 0%, transparent 75%)',
+                }}
+              />
+            )}
+
+            {/* Icono — respira cuando está activo */}
+            <div className={active ? 'icon-active' : ''}>
+              <Icon
+                size={21}
+                strokeWidth={active ? 2 : 1.4}
+                className={active ? 'text-emerald-400' : 'text-zinc-600'}
+              />
+            </div>
+
+            {/* Dot indicador */}
             <span className={cn(
-              'w-1 h-1 rounded-full transition-all duration-200',
-              active ? 'bg-emerald-400' : 'bg-transparent'
+              'w-1 h-1 rounded-full mt-1.5 transition-all duration-300',
+              active ? 'bg-emerald-400 dot-live' : 'bg-transparent'
             )} />
           </Link>
         )

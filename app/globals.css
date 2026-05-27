@@ -153,6 +153,24 @@
   100% { background-position: 0% 50%; }
 }
 
+/* ── Icon breathe — icono activo respira en el nav ─────────────────── */
+@keyframes icon-breathe {
+  0%, 100% { transform: scale(1);    filter: drop-shadow(0 0 0px rgba(52,211,153,0)); }
+  50%       { transform: scale(1.15); filter: drop-shadow(0 0 6px rgba(52,211,153,0.7)); }
+}
+.icon-active {
+  animation: icon-breathe 2.8s ease-in-out infinite;
+}
+
+/* ── Nav tab glow — halo debajo del icono activo ───────────────────── */
+@keyframes tab-glow {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1.0; }
+}
+.tab-active-glow {
+  animation: tab-glow 2.8s ease-in-out infinite;
+}
+
 /* ── Logo glow — pulsa suavemente ───────────────────────────────────── */
 @keyframes logo-glow {
   0%, 100% { box-shadow: 0 0 6px rgba(16,185,129,0.3), 0 0 0px rgba(16,185,129,0); }
