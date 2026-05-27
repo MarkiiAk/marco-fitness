@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 const tabs = [
   { href: '/dashboard',  label: 'Inicio',    icon: LayoutDashboard },
   { href: '/chat',       label: 'Chat',      icon: MessageCircle },
-  { href: '/registrar',  label: 'Registrar', icon: PlusCircle, primary: true },
+  { href: '/registrar',  label: 'Registrar', icon: PlusCircle },
   { href: '/historial',  label: 'Historial', icon: CalendarDays },
 ]
 
@@ -16,28 +16,30 @@ export default function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="bg-zinc-950/90 backdrop-blur-xl border-t border-white/[0.06] flex items-center justify-around px-2 py-2">
-      {tabs.map(({ href, label, icon: Icon, primary }) => {
+    <nav className="flex items-center justify-around px-2 py-3
+                    bg-zinc-950/80 backdrop-blur-2xl
+                    border-t border-white/[0.04]">
+      {tabs.map(({ href, icon: Icon }) => {
         const active = pathname.startsWith(href)
         return (
           <Link
             key={href}
             href={href}
             className={cn(
-              'flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-colors',
-              primary && 'relative',
-              active ? 'text-emerald-400' : 'text-zinc-600'
+              'flex flex-col items-center gap-1.5 px-5 py-1.5 min-h-[44px] justify-center',
+              'nav-tab'
             )}
           >
-            {primary ? (
-              <div className="w-11 h-11 rounded-2xl bg-emerald-500 flex items-center justify-center
-                              shadow-[0_0_16px_rgba(16,185,129,0.4)] -mt-5">
-                <Icon size={22} className="text-white" strokeWidth={2} />
-              </div>
-            ) : (
-              <Icon size={20} strokeWidth={active ? 2 : 1.6} />
-            )}
-            {!primary && <span className="text-[10px] font-medium">{label}</span>}
+            <Icon
+              size={20}
+              strokeWidth={active ? 2 : 1.4}
+              className={active ? 'text-emerald-400' : 'text-zinc-700'}
+            />
+            {/* Dot indicador activo — Oura style */}
+            <span className={cn(
+              'w-1 h-1 rounded-full transition-all duration-200',
+              active ? 'bg-emerald-400' : 'bg-transparent'
+            )} />
           </Link>
         )
       })}
