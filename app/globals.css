@@ -132,11 +132,7 @@
   }
   body {
     @apply text-foreground;
-    /* Gradient de profundidad — fondo vivo, no plano negro.
-       Verde oscuro radiando desde arriba (como la luz de Oura),
-       azul-teal sutil desde abajo, base tierra cálida. */
-    /* Base cálida oscura — el gradiente vive en layout.tsx como div fijo */
-    background-color: #0d0b09;
+    background-color: transparent;
   }
   html {
     @apply font-sans;

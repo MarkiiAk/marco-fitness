@@ -35,36 +35,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="es"
       className={`${spaceGrotesk.variable} ${geistMono.variable} h-full dark`}
       suppressHydrationWarning
-      style={{ backgroundColor: '#0d0b09' }}
+      style={{
+        // El gradiente vive aquí — nada puede taparlo.
+        // Body es transparent, todo el contenido flota sobre esto.
+        backgroundColor: '#0d0b09',
+        backgroundImage: `
+          radial-gradient(ellipse 120% 70% at 50% -10%,
+            rgba(16, 185, 129, 0.25) 0%,
+            rgba(16, 185, 129, 0.07) 42%,
+            transparent 62%
+          ),
+          radial-gradient(ellipse 80% 55% at 90% 110%,
+            rgba(56, 189, 248, 0.12) 0%,
+            transparent 58%
+          )
+        `,
+        backgroundAttachment: 'fixed',
+      }}
     >
-      {/*
-        Body: sin background (transparente). El html provee #0d0b09.
-        Los divs de gradiente son fixed con z-index: -1 — se ven bajo el contenido
-        pero sobre el html. El contenido flota encima naturalmente.
-      */}
       <body className="min-h-full text-zinc-50 antialiased font-sans">
 
-        {/* Ambient gradient — verde Competition desde arriba, teal desde abajo */}
-        <div
-          aria-hidden="true"
-          className="fixed inset-0 pointer-events-none select-none"
-          style={{
-            zIndex: -1,
-            background: `
-              radial-gradient(ellipse 110% 65% at 50% -5%,
-                rgba(16, 185, 129, 0.22) 0%,
-                rgba(16, 185, 129, 0.06) 45%,
-                transparent 65%
-              ),
-              radial-gradient(ellipse 70% 50% at 92% 105%,
-                rgba(56, 189, 248, 0.10) 0%,
-                transparent 60%
-              )
-            `,
-          }}
-        />
-
-        {/* Grain texture — película orgánica sobre el gradiente */}
+        {/* Grain texture — orgánica, sutil */}
         <div
           aria-hidden="true"
           className="fixed inset-0 pointer-events-none select-none"
