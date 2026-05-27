@@ -40,11 +40,7 @@ export default async function HistorialPage() {
         </div>
       ) : (
         <div className="rounded-2xl overflow-hidden divide-y"
-             style={{
-               backgroundColor: 'oklch(0.16 0.009 78)',
-               borderColor: 'oklch(1 0 0 / 0.06)',
-               divideColor: 'oklch(1 0 0 / 0.04)',
-             }}>
+             style={{ backgroundColor: 'oklch(0.16 0.009 78)' }}>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {registros.map((r: any) => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
