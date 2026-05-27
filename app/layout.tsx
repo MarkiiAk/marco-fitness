@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#1a190f",
+  themeColor: "#0d0b09",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -31,19 +31,48 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${spaceGrotesk.variable} ${geistMono.variable} h-full dark`} suppressHydrationWarning>
-      <body className="min-h-full bg-zinc-950 text-zinc-50 antialiased font-sans">
+    <html
+      lang="es"
+      className={`${spaceGrotesk.variable} ${geistMono.variable} h-full dark`}
+      suppressHydrationWarning
+      style={{ backgroundColor: '#0d0b09' }}
+    >
+      {/*
+        Body: sin background (transparente). El html provee #0d0b09.
+        Los divs de gradiente son fixed con z-index: -1 — se ven bajo el contenido
+        pero sobre el html. El contenido flota encima naturalmente.
+      */}
+      <body className="min-h-full text-zinc-50 antialiased font-sans">
 
-        {/* Grain texture overlay — Tulum wellness vibe, non-interactive */}
+        {/* Ambient gradient — verde Competition desde arriba, teal desde abajo */}
         <div
           aria-hidden="true"
           className="fixed inset-0 pointer-events-none select-none"
           style={{
-            zIndex: 9998,
-            opacity: 0.038,
+            zIndex: -1,
+            background: `
+              radial-gradient(ellipse 110% 65% at 50% -5%,
+                rgba(16, 185, 129, 0.22) 0%,
+                rgba(16, 185, 129, 0.06) 45%,
+                transparent 65%
+              ),
+              radial-gradient(ellipse 70% 50% at 92% 105%,
+                rgba(56, 189, 248, 0.10) 0%,
+                transparent 60%
+              )
+            `,
+          }}
+        />
+
+        {/* Grain texture — película orgánica sobre el gradiente */}
+        <div
+          aria-hidden="true"
+          className="fixed inset-0 pointer-events-none select-none"
+          style={{
+            zIndex: -1,
+            opacity: 0.045,
             backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")`,
             backgroundSize: '180px 180px',
-            mixBlendMode: 'overlay',
           }}
         />
 
