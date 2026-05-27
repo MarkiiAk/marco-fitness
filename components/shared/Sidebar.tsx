@@ -35,21 +35,32 @@ export default function Sidebar({ pesoActual = PESO_INICIAL }: { pesoActual?: nu
       className="relative flex flex-col h-full px-4 py-7 overflow-hidden"
       style={{ backgroundColor: 'oklch(0.12 0.009 80)' }}
     >
-      {/* Resplandor verde abajo — como luz de piso */}
+      {/* Resplandor abajo — baila como flamas */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none"
+        className="flame-dance absolute bottom-0 left-0 right-0 h-56 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 120% 80% at 50% 100%, rgba(16,185,129,0.28) 0%, rgba(16,185,129,0.08) 45%, transparent 70%)',
+          background: 'radial-gradient(ellipse 130% 85% at 50% 100%, rgba(16,185,129,0.32) 0%, rgba(16,185,129,0.10) 45%, transparent 70%)',
         }}
       />
 
-      {/* Partículas flotantes — más visibles, más cantidad */}
-      <div className="particle" style={{ left: '15%', bottom: '12%', width: '4px', height: '4px', opacity: 0.8 }} />
-      <div className="particle particle-2" style={{ left: '35%', bottom: '25%', width: '3px', height: '3px', opacity: 0.7 }} />
-      <div className="particle particle-3" style={{ left: '55%', bottom: '18%', width: '5px', height: '5px', opacity: 0.75 }} />
-      <div className="particle" style={{ left: '72%', bottom: '32%', width: '3px', height: '3px', opacity: 0.65, animationDelay: '1s', animationDuration: '8s' }} />
-      <div className="particle particle-2" style={{ left: '85%', bottom: '15%', width: '4px', height: '4px', opacity: 0.7, animationDelay: '3s' }} />
-      <div className="particle particle-3" style={{ left: '45%', bottom: '40%', width: '2px', height: '2px', opacity: 0.5, animationDelay: '5s' }} />
+      {/* ── BURBUJAS — efecto matraz 🧪 ──────────────────────────────── */}
+      {/* Fila baja — burbujas grandes que suben desde el fondo */}
+      <div className="particle particle-lg"            style={{ left: '12%', bottom: '8%' }} />
+      <div className="particle particle-md particle-2" style={{ left: '28%', bottom: '5%' }} />
+      <div className="particle particle-lg particle-3" style={{ left: '45%', bottom: '10%' }} />
+      <div className="particle particle-md particle-4" style={{ left: '62%', bottom: '6%' }} />
+      <div className="particle particle-lg particle-5" style={{ left: '78%', bottom: '9%' }} />
+      <div className="particle particle-sm particle-6" style={{ left: '90%', bottom: '7%' }} />
+
+      {/* Fila media — burbujas que ya van subiendo */}
+      <div className="particle particle-md"            style={{ left: '20%', bottom: '22%', animationDelay: '0.9s', animationDuration: '6s'   }} />
+      <div className="particle particle-sm particle-2" style={{ left: '38%', bottom: '28%', animationDelay: '2.2s', animationDuration: '5s'   }} />
+      <div className="particle particle-md particle-3" style={{ left: '58%', bottom: '25%', animationDelay: '3.8s', animationDuration: '7s'   }} />
+      <div className="particle particle-sm particle-4" style={{ left: '75%', bottom: '30%', animationDelay: '1.5s', animationDuration: '5.5s' }} />
+
+      {/* Burbuja solitaria en el medio — la que se ve más bonita */}
+      <div className="particle particle-lg particle-5" style={{ left: '50%', bottom: '38%', animationDelay: '0.3s', animationDuration: '8s' }} />
+      <div className="particle particle-sm particle-6" style={{ left: '33%', bottom: '42%', animationDelay: '4.5s', animationDuration: '6s' }} />
 
       {/* Wordmark */}
       <div className="px-2 mb-10 relative z-10">
@@ -57,10 +68,7 @@ export default function Sidebar({ pesoActual = PESO_INICIAL }: { pesoActual?: nu
           Sistema personal
         </p>
         <div className="flex items-center gap-2.5">
-          {/* Logo dot animado */}
-          <div
-            className="logo-glow w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shrink-0"
-          >
+          <div className="logo-glow w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
             <span className="text-white font-black text-[10px]">M</span>
           </div>
           <h1 className="text-sm font-bold text-zinc-100 leading-none tracking-tight">
@@ -84,11 +92,8 @@ export default function Sidebar({ pesoActual = PESO_INICIAL }: { pesoActual?: nu
                   : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/[0.04]'
               )}
             >
-              <Icon
-                size={15}
-                strokeWidth={active ? 2 : 1.5}
-                className={active ? 'text-emerald-400' : ''}
-              />
+              <Icon size={15} strokeWidth={active ? 2 : 1.5}
+                    className={active ? 'text-emerald-400' : ''} />
               {label}
               {active && (
                 <span className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-400 dot-live" />
@@ -98,7 +103,7 @@ export default function Sidebar({ pesoActual = PESO_INICIAL }: { pesoActual?: nu
         })}
       </nav>
 
-      {/* Progress — mini ring + datos */}
+      {/* Progress — mini ring */}
       <div className="mt-6 px-2 pb-2 relative z-10">
         <div className="flex items-center gap-4">
           <div className="shrink-0 relative" style={{ width: size, height: size }}>
@@ -108,9 +113,7 @@ export default function Sidebar({ pesoActual = PESO_INICIAL }: { pesoActual?: nu
                 fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={stroke} />
               <circle cx={size/2} cy={size/2} r={r}
                 fill="none" stroke="rgba(16,185,129,0.9)" strokeWidth={stroke}
-                strokeLinecap="round"
-                strokeDasharray={circ}
-                strokeDashoffset={offset}
+                strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={offset}
                 className="ring-breathe" />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
@@ -120,7 +123,6 @@ export default function Sidebar({ pesoActual = PESO_INICIAL }: { pesoActual?: nu
               </span>
             </div>
           </div>
-
           <div className="min-w-0">
             <div className="flex items-baseline gap-1 mb-0.5">
               <span className="text-xl font-bold text-zinc-100 leading-none tabular-nums"
@@ -129,9 +131,7 @@ export default function Sidebar({ pesoActual = PESO_INICIAL }: { pesoActual?: nu
               </span>
               <span className="text-xs text-zinc-500">kg</span>
             </div>
-            <p className="text-[10px] text-zinc-500">
-              Faltan {faltanKg} kg
-            </p>
+            <p className="text-[10px] text-zinc-500">Faltan {faltanKg} kg</p>
           </div>
         </div>
       </div>

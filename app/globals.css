@@ -162,23 +162,48 @@
   animation: logo-glow 4s ease-in-out infinite;
 }
 
-/* ── Particle float — partículas que ascienden y desaparecen ────────── */
-@keyframes particle-rise {
-  0%   { transform: translateY(0) scale(1);   opacity: 0.6; }
-  70%  { transform: translateY(-40px) scale(0.7); opacity: 0.3; }
-  100% { transform: translateY(-60px) scale(0.3); opacity: 0; }
+/* ── Bubble rise — efecto matraz burbujeante con sway lateral ────────── */
+@keyframes bubble-rise {
+  0%   { transform: translateY(0)     translateX(0)    scale(1);    opacity: 0.85; }
+  20%  { transform: translateY(-18px) translateX(4px)  scale(0.92); opacity: 0.75; }
+  40%  { transform: translateY(-38px) translateX(-3px) scale(0.78); opacity: 0.58; }
+  60%  { transform: translateY(-58px) translateX(3px)  scale(0.60); opacity: 0.38; }
+  80%  { transform: translateY(-76px) translateX(-2px) scale(0.40); opacity: 0.15; }
+  100% { transform: translateY(-90px) translateX(0)    scale(0.20); opacity: 0; }
 }
+
 .particle {
   position: absolute;
-  width: 3px;
-  height: 3px;
   border-radius: 9999px;
-  background: rgba(16, 185, 129, 0.5);
-  animation: particle-rise 6s ease-in-out infinite;
+  background: rgba(16, 185, 129, 0.75);
+  animation: bubble-rise 5s ease-in-out infinite;
   pointer-events: none;
 }
-.particle-2 { animation-delay: 2s; animation-duration: 7s; opacity: 0.4; background: rgba(16,185,129,0.35); }
-.particle-3 { animation-delay: 4s; animation-duration: 5.5s; opacity: 0.5; }
+.particle-sm   { width: 3px; height: 3px; }
+.particle-md   { width: 5px; height: 5px; }
+.particle-lg   { width: 7px; height: 7px; }
+.particle-2    { animation-delay: 1.8s;  animation-duration: 6.5s; }
+.particle-3    { animation-delay: 3.4s;  animation-duration: 4.8s; }
+.particle-4    { animation-delay: 0.6s;  animation-duration: 7.2s; }
+.particle-5    { animation-delay: 2.5s;  animation-duration: 5.5s; }
+.particle-6    { animation-delay: 4.2s;  animation-duration: 6s;   }
+
+/* ── Flame dance — resplandor que baila como flamas ─────────────────── */
+@keyframes flame-dance {
+  0%   { transform: scaleX(1.00) scaleY(1.00); opacity: 1.0;  }
+  12%  { transform: scaleX(1.06) scaleY(0.94); opacity: 0.82; }
+  25%  { transform: scaleX(0.94) scaleY(1.09); opacity: 0.92; }
+  38%  { transform: scaleX(1.08) scaleY(0.91); opacity: 0.78; }
+  50%  { transform: scaleX(0.96) scaleY(1.06); opacity: 0.88; }
+  62%  { transform: scaleX(1.04) scaleY(0.96); opacity: 0.84; }
+  75%  { transform: scaleX(0.93) scaleY(1.08); opacity: 0.90; }
+  88%  { transform: scaleX(1.05) scaleY(0.95); opacity: 0.80; }
+  100% { transform: scaleX(1.00) scaleY(1.00); opacity: 1.0;  }
+}
+.flame-dance {
+  animation: flame-dance 3.5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
 
 /* ── Nav active pulse ────────────────────────────────────────────────── */
 @keyframes nav-pulse {
