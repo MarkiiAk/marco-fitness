@@ -35,19 +35,21 @@ export default function Sidebar({ pesoActual = PESO_INICIAL }: { pesoActual?: nu
       className="relative flex flex-col h-full px-4 py-7 overflow-hidden"
       style={{ backgroundColor: 'oklch(0.12 0.009 80)' }}
     >
-      {/* Partículas flotantes — Tulum zen vibe */}
-      <div className="particle" style={{ left: '25%', bottom: '15%' }} />
-      <div className="particle particle-2" style={{ left: '55%', bottom: '30%' }} />
-      <div className="particle particle-3" style={{ left: '75%', bottom: '22%' }} />
-
-      {/* Glow sutil en la esquina superior */}
+      {/* Resplandor verde abajo — como luz de piso */}
       <div
-        className="absolute -top-8 -right-8 w-32 h-32 rounded-full pointer-events-none"
+        className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)',
-          animation: 'logo-glow 6s ease-in-out infinite',
+          background: 'radial-gradient(ellipse 120% 80% at 50% 100%, rgba(16,185,129,0.28) 0%, rgba(16,185,129,0.08) 45%, transparent 70%)',
         }}
       />
+
+      {/* Partículas flotantes — más visibles, más cantidad */}
+      <div className="particle" style={{ left: '15%', bottom: '12%', width: '4px', height: '4px', opacity: 0.8 }} />
+      <div className="particle particle-2" style={{ left: '35%', bottom: '25%', width: '3px', height: '3px', opacity: 0.7 }} />
+      <div className="particle particle-3" style={{ left: '55%', bottom: '18%', width: '5px', height: '5px', opacity: 0.75 }} />
+      <div className="particle" style={{ left: '72%', bottom: '32%', width: '3px', height: '3px', opacity: 0.65, animationDelay: '1s', animationDuration: '8s' }} />
+      <div className="particle particle-2" style={{ left: '85%', bottom: '15%', width: '4px', height: '4px', opacity: 0.7, animationDelay: '3s' }} />
+      <div className="particle particle-3" style={{ left: '45%', bottom: '40%', width: '2px', height: '2px', opacity: 0.5, animationDelay: '5s' }} />
 
       {/* Wordmark */}
       <div className="px-2 mb-10 relative z-10">
