@@ -23,7 +23,6 @@ export default async function HistorialPage() {
 
   return (
     <div>
-      {/* Header */}
       <div className="pt-5 pb-10">
         <p className="text-[10px] font-semibold text-zinc-600 uppercase tracking-[0.18em] mb-4">
           Registro
@@ -34,12 +33,12 @@ export default async function HistorialPage() {
       </div>
 
       {!registros?.length ? (
-        <div className="rounded-2xl p-10 text-center" style={{ backgroundColor: 'oklch(0.16 0.009 78)' }}>
+        <div className="warm-card rounded-2xl p-10 text-center">
           <p className="text-zinc-500 text-sm">Sin registros todavía</p>
           <p className="text-zinc-700 text-xs mt-2">Los días registrados aparecerán aquí</p>
         </div>
       ) : (
-        <div className="rounded-2xl overflow-hidden divide-y"
+        <div className="rounded-2xl overflow-hidden divide-y divide-white/[0.05]"
              style={{ backgroundColor: 'oklch(0.16 0.009 78)' }}>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {registros.map((r: any) => {
@@ -56,12 +55,8 @@ export default async function HistorialPage() {
               <Link
                 key={r.fecha}
                 href={`/historial/${r.fecha}`}
-                className="flex items-center gap-4 px-5 py-4 transition-colors duration-150"
-                style={{ '--hover-bg': 'oklch(1 0 0 / 0.03)' } as React.CSSProperties}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'oklch(1 0 0 / 0.03)')}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '')}
+                className="flex items-center gap-4 px-5 py-4 hover:bg-white/[0.03] transition-colors duration-150"
               >
-                {/* Fecha */}
                 <div className="w-11 shrink-0 text-center">
                   <p className="text-[9px] font-semibold text-zinc-600 uppercase tracking-widest mb-0.5">
                     {new Date(r.fecha + 'T00:00:00').toLocaleDateString('es-MX', { month: 'short' })}
@@ -74,7 +69,6 @@ export default async function HistorialPage() {
                   </p>
                 </div>
 
-                {/* Info */}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-zinc-200 capitalize">
                     {new Date(r.fecha + 'T00:00:00').toLocaleDateString('es-MX', { weekday: 'long' })}
@@ -87,7 +81,6 @@ export default async function HistorialPage() {
                   </p>
                 </div>
 
-                {/* Peso */}
                 {peso && (
                   <div className="text-right shrink-0">
                     <p
@@ -102,7 +95,6 @@ export default async function HistorialPage() {
                   </div>
                 )}
 
-                {/* Déficit */}
                 <div className="text-right shrink-0 w-12">
                   <p
                     className={cn('text-xs font-bold tabular-nums', deficitColor)}

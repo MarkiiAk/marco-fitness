@@ -131,11 +131,33 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    /* Gradient de profundidad — fondo vivo, no plano negro.
+       Verde oscuro radiando desde arriba (como la luz de Oura),
+       azul-teal sutil desde abajo, base tierra cálida. */
+    background-color: oklch(0.10 0.009 82);
+    background-image:
+      radial-gradient(ellipse 90% 55% at 50% -5%,
+        oklch(0.22 0.055 162 / 0.4) 0%,
+        transparent 65%),
+      radial-gradient(ellipse 60% 45% at 85% 105%,
+        oklch(0.18 0.04 200 / 0.18) 0%,
+        transparent 65%);
+    background-attachment: fixed;
+    background-size: 100% 100%;
   }
   html {
     @apply font-sans;
   }
+}
+
+/* ── Warm card hover — funciona en Server Components (sin JS) ───────── */
+.warm-card {
+  background-color: oklch(0.16 0.009 78);
+  transition: background-color 150ms var(--ease-out-quart);
+}
+.warm-card:hover {
+  background-color: oklch(0.195 0.009 76);
 }
 
 /* ── Easing tokens ──────────────────────────────────────────────────── */

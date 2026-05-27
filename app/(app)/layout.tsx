@@ -27,7 +27,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
       {/* Contenido principal — page-enter para animación de ruta */}
       <main className="flex-1 md:pl-64 pb-24 md:pb-0">
-        <div className="page-enter max-w-lg mx-auto px-5 py-6">
+        <div className="page-enter max-w-2xl mx-auto px-5 py-6">
           {children}
         </div>
       </main>
