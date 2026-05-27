@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { LayoutDashboard, MessageCircle, PlusCircle, CalendarDays, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import ThemeToggle from './ThemeToggle'
 
 const nav = [
   { href: '/dashboard',  label: 'Dashboard',  icon: LayoutDashboard },
@@ -62,7 +63,7 @@ export default function Sidebar({ pesoActual = PESO_INICIAL }: { pesoActual?: nu
       <div className="particle particle-lg particle-5" style={{ left: '50%', bottom: '38%', animationDelay: '0.3s', animationDuration: '8s' }} />
       <div className="particle particle-sm particle-6" style={{ left: '33%', bottom: '42%', animationDelay: '4.5s', animationDuration: '6s' }} />
 
-      {/* Wordmark */}
+      {/* Wordmark + ThemeToggle */}
       <div className="px-2 mb-10 relative z-10">
         <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-500 mb-1">
           Sistema personal
@@ -71,9 +72,10 @@ export default function Sidebar({ pesoActual = PESO_INICIAL }: { pesoActual?: nu
           <div className="logo-glow w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
             <span className="text-white font-black text-[10px]">M</span>
           </div>
-          <h1 className="text-sm font-bold text-zinc-100 leading-none tracking-tight">
+          <h1 className="text-sm font-bold text-zinc-200 leading-none tracking-tight flex-1">
             Marco Fitness
           </h1>
+          <ThemeToggle />
         </div>
       </div>
 

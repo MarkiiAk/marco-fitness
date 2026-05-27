@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Space_Grotesk, Geist_Mono } from "next/font/google"
+import { Providers } from "./providers"
 import "./globals.css"
 
 const spaceGrotesk = Space_Grotesk({
@@ -33,30 +34,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="es"
-      className={`${spaceGrotesk.variable} ${geistMono.variable} h-full dark`}
+      className={`${spaceGrotesk.variable} ${geistMono.variable} h-full`}
       suppressHydrationWarning
-      style={{
-        backgroundColor: '#0d0b09',
-        backgroundImage: `
-          radial-gradient(ellipse 140% 80% at 55% -15%,
-            rgba(16, 185, 129, 0.28) 0%,
-            rgba(16, 185, 129, 0.08) 42%,
-            transparent 62%
-          ),
-          radial-gradient(ellipse 90% 60% at 5% 80%,
-            rgba(16, 185, 129, 0.10) 0%,
-            transparent 55%
-          ),
-          radial-gradient(ellipse 80% 55% at 95% 110%,
-            rgba(56, 189, 248, 0.12) 0%,
-            transparent 58%
-          )
-        `,
-      }}
     >
       <body className="min-h-full text-zinc-50 antialiased font-sans">
 
-        {/* Grain — textura orgánica sutil */}
+        {/* Grain — textura orgánica */}
         <div
           aria-hidden="true"
           className="fixed inset-0 pointer-events-none select-none"
@@ -68,7 +51,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
 
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )

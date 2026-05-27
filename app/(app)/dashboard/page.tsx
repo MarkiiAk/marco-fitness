@@ -4,6 +4,7 @@ import { todayISO, formatDelta } from '@/lib/utils'
 import ProgressRing from '@/components/shared/ProgressRing'
 import WeightChart from '@/components/dashboard/WeightChart'
 import WorkoutWeekView from '@/components/dashboard/WorkoutWeekView'
+import ThemeToggle from '@/components/shared/ThemeToggle'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -95,12 +96,18 @@ export default async function DashboardPage() {
             weekday: 'long', day: 'numeric', month: 'long'
           })}
         </p>
-        <span
-          className="text-sm font-medium text-zinc-500 tabular-nums"
-          style={{ fontFamily: 'var(--font-geist-mono)' }}
-        >
-          {nowCDMX}
-        </span>
+        <div className="flex items-center gap-3">
+          <span
+            className="text-sm font-medium text-zinc-500 tabular-nums"
+            style={{ fontFamily: 'var(--font-geist-mono)' }}
+          >
+            {nowCDMX}
+          </span>
+          {/* ThemeToggle visible solo en mobile (md:hidden), en desktop va en sidebar */}
+          <div className="md:hidden">
+            <ThemeToggle />
+          </div>
+        </div>
       </div>
 
       {/* ── Peso — flota en el fondo, sin card ───────────────────────

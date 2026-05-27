@@ -133,15 +133,66 @@
   body {
     @apply text-foreground;
     background-color: transparent;
+    /* Transición suave al cambiar de tema */
+    transition: color 350ms ease;
   }
   html {
     @apply font-sans;
-    /* ── Aurora background — respira en loop perpetuo ─────────────────
-       background-position anima suavemente → efecto aurora/zen.
-       background-image se define en layout.tsx como inline style. */
+    /* ── Background dinámico por tema ─────────────────────────────────
+       Los colores y gradiente cambian con la clase .dark / :root.
+       background-size + aurora hacen que se mueva lentamente. */
+    background-color: var(--html-bg);
+    background-image: var(--html-gradient);
     background-size: 300% 300%;
     animation: bg-aurora 20s ease-in-out infinite;
+    transition: background-color 500ms ease;
   }
+}
+
+/* ── Background tokens por tema ────────────────────────────────────── */
+:root {
+  /* Light mode — Tulum Day: crema cálida, verde como protagonista */
+  --html-bg: oklch(0.96 0.006 85);
+  --html-gradient:
+    radial-gradient(ellipse 130% 70% at 50% -10%,
+      rgba(16, 185, 129, 0.18) 0%,
+      rgba(16, 185, 129, 0.05) 45%,
+      transparent 65%
+    ),
+    radial-gradient(ellipse 80% 55% at 90% 110%,
+      rgba(16, 185, 129, 0.08) 0%,
+      transparent 58%
+    );
+
+  /* Zinc invertido para light mode — backgrounds claros, texto oscuro */
+  --color-zinc-950: oklch(0.96 0.006 85);
+  --color-zinc-900: oklch(0.99 0.003 80);
+  --color-zinc-800: oklch(0.92 0.004 80);
+  --color-zinc-700: oklch(0.82 0.004 78);
+  --color-zinc-600: oklch(0.50 0.006 76);
+  --color-zinc-500: oklch(0.42 0.007 75);
+  --color-zinc-400: oklch(0.36 0.007 75);
+  --color-zinc-200: oklch(0.22 0.009 74);
+  --color-zinc-50:  oklch(0.14 0.01 72);
+}
+
+.dark {
+  /* Dark mode — Tulum Night */
+  --html-bg: #0d0b09;
+  --html-gradient:
+    radial-gradient(ellipse 140% 80% at 55% -15%,
+      rgba(16, 185, 129, 0.28) 0%,
+      rgba(16, 185, 129, 0.08) 42%,
+      transparent 62%
+    ),
+    radial-gradient(ellipse 90% 60% at 5% 80%,
+      rgba(16, 185, 129, 0.10) 0%,
+      transparent 55%
+    ),
+    radial-gradient(ellipse 80% 55% at 95% 110%,
+      rgba(56, 189, 248, 0.12) 0%,
+      transparent 58%
+    );
 }
 
 /* ── Aurora loop — el fondo vive ────────────────────────────────────── */
@@ -238,13 +289,13 @@
   animation: peso-drop 5s ease-in-out infinite;
 }
 
-/* ── Warm card hover — funciona en Server Components (sin JS) ───────── */
+/* ── Warm card hover — usa var(--color-zinc-900) para adaptarse al tema */
 .warm-card {
-  background-color: oklch(0.16 0.009 78);
-  transition: background-color 150ms var(--ease-out-quart);
+  background-color: var(--color-zinc-900, oklch(0.16 0.009 78));
+  transition: background-color 200ms var(--ease-out-quart);
 }
 .warm-card:hover {
-  background-color: oklch(0.195 0.009 76);
+  background-color: var(--color-zinc-800, oklch(0.195 0.009 76));
 }
 
 /* ── Easing tokens ──────────────────────────────────────────────────── */
