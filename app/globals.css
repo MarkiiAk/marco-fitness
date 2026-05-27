@@ -104,7 +104,7 @@
   --secondary: oklch(0.21 0.008 74);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.21 0.008 74);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted-foreground: oklch(0.75 0 0);
   --accent: oklch(0.21 0.008 74);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
@@ -136,7 +136,66 @@
   }
   html {
     @apply font-sans;
+    /* ── Aurora background — respira en loop perpetuo ─────────────────
+       background-position anima suavemente → efecto aurora/zen.
+       background-image se define en layout.tsx como inline style. */
+    background-size: 300% 300%;
+    animation: bg-aurora 20s ease-in-out infinite;
   }
+}
+
+/* ── Aurora loop — el fondo vive ────────────────────────────────────── */
+@keyframes bg-aurora {
+  0%   { background-position: 0% 50%; }
+  25%  { background-position: 55% 10%; }
+  50%  { background-position: 100% 50%; }
+  75%  { background-position: 45% 90%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Logo glow — pulsa suavemente ───────────────────────────────────── */
+@keyframes logo-glow {
+  0%, 100% { box-shadow: 0 0 6px rgba(16,185,129,0.3), 0 0 0px rgba(16,185,129,0); }
+  50%       { box-shadow: 0 0 16px rgba(16,185,129,0.6), 0 0 30px rgba(16,185,129,0.15); }
+}
+.logo-glow {
+  animation: logo-glow 4s ease-in-out infinite;
+}
+
+/* ── Particle float — partículas que ascienden y desaparecen ────────── */
+@keyframes particle-rise {
+  0%   { transform: translateY(0) scale(1);   opacity: 0.6; }
+  70%  { transform: translateY(-40px) scale(0.7); opacity: 0.3; }
+  100% { transform: translateY(-60px) scale(0.3); opacity: 0; }
+}
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.5);
+  animation: particle-rise 6s ease-in-out infinite;
+  pointer-events: none;
+}
+.particle-2 { animation-delay: 2s; animation-duration: 7s; opacity: 0.4; background: rgba(16,185,129,0.35); }
+.particle-3 { animation-delay: 4s; animation-duration: 5.5s; opacity: 0.5; }
+
+/* ── Nav active pulse ────────────────────────────────────────────────── */
+@keyframes nav-pulse {
+  0%, 100% { background-color: rgba(255,255,255,0.07); }
+  50%       { background-color: rgba(255,255,255,0.04); }
+}
+.nav-active {
+  animation: nav-pulse 3.5s ease-in-out infinite;
+}
+
+/* ── Peso glow — sutil pulso en el número cuando baja ───────────────── */
+@keyframes peso-drop {
+  0%, 100% { text-shadow: 0 0 0px rgba(52,211,153,0); }
+  50%       { text-shadow: 0 0 24px rgba(52,211,153,0.18); }
+}
+.peso-bajando {
+  animation: peso-drop 5s ease-in-out infinite;
 }
 
 /* ── Warm card hover — funciona en Server Components (sin JS) ───────── */

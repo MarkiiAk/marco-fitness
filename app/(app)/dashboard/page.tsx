@@ -106,13 +106,13 @@ export default async function DashboardPage() {
       {/* ── Peso — flota en el fondo, sin card ───────────────────────
            Oura-like: el número sobre el fondo oscuro directamente. */}
       <div className="mb-14">
-        <p className="text-[10px] font-semibold text-zinc-600 uppercase tracking-[0.18em] mb-4">
+        <p className="text-[10px] font-semibold text-zinc-500 uppercase tracking-[0.18em] mb-4">
           Peso
         </p>
 
         <div className="flex items-end gap-2.5">
           <span
-            className="font-bold leading-none text-white tabular-nums"
+            className={`font-bold leading-none text-white tabular-nums${pesoBajando ? ' peso-bajando' : ''}`}
             style={{
               fontFamily: 'var(--font-geist-mono)',
               fontSize: 'clamp(3.5rem, 15vw, 5rem)',
