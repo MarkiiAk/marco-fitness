@@ -6,7 +6,6 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Último peso registrado para la barra de progreso del sidebar
   let pesoActual: number = 92.1
   if (user) {
     const { data } = await supabase
@@ -22,13 +21,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="min-h-screen flex">
       {/* Sidebar — solo desktop */}
-      <aside className="hidden md:flex md:w-60 md:flex-col md:fixed md:inset-y-0 border-r border-zinc-800">
+      <aside className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 border-r border-white/[0.05]">
         <Sidebar pesoActual={pesoActual} />
       </aside>
 
-      {/* Contenido principal */}
-      <main className="flex-1 md:pl-60 pb-20 md:pb-0">
-        <div className="max-w-2xl mx-auto px-4 py-6">
+      {/* Contenido principal — page-enter para animación de ruta */}
+      <main className="flex-1 md:pl-64 pb-24 md:pb-0">
+        <div className="page-enter max-w-lg mx-auto px-5 py-6">
           {children}
         </div>
       </main>

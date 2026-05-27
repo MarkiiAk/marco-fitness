@@ -46,6 +46,15 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* ── Tulum Warm Dark Palette ────────────────────────────────────────
+     Reemplaza zinc frío (gris clínico) con tierra oscura cálida.
+     oklch hue ~80-85 = zona olivo/tierra, chroma muy baja = sutil.
+     El emerald (162) resalta mucho más sobre base cálida que sobre zinc. */
+  --color-zinc-950: oklch(0.105 0.009 82);
+  --color-zinc-900: oklch(0.16 0.009 78);
+  --color-zinc-800: oklch(0.21 0.008 74);
+  --color-zinc-700: oklch(0.27 0.007 70);
 }
 
 :root {
@@ -84,36 +93,36 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0.105 0.009 82);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.16 0.009 78);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.16 0.009 78);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --secondary: oklch(0.21 0.008 74);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  --muted: oklch(0.21 0.008 74);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: oklch(0.21 0.008 74);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: oklch(0.14 0.009 80);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: oklch(0.696 0.17 162);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent: oklch(0.21 0.008 74);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-border: oklch(1 0 0 / 6%);
   --sidebar-ring: oklch(0.556 0 0);
 }
 
@@ -126,5 +135,80 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* ── Easing tokens ──────────────────────────────────────────────────── */
+:root {
+  --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ── Page fade-up — cada ruta entra con vida ────────────────────────── */
+@keyframes page-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: page-fade-up 450ms var(--ease-out-expo) both;
+}
+
+/* ── Ring breathe — los rings respiran suavemente ───────────────────── */
+@keyframes ring-breathe {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.72; }
+}
+
+.ring-breathe {
+  animation: ring-breathe 3.5s ease-in-out infinite;
+}
+
+/* ── Achievement glow — déficit meta alcanzada ──────────────────────── */
+@keyframes achievement-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.696 0.17 162 / 0); }
+  50%       { box-shadow: 0 0 0 6px oklch(0.696 0.17 162 / 0.06); }
+}
+.achievement-glow {
+  animation: achievement-pulse 3s ease-in-out infinite;
+}
+
+/* ── Live dot — workout completado ─────────────────────────────────── */
+@keyframes live-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+.dot-live {
+  animation: live-dot 2.4s ease-in-out infinite;
+}
+
+/* ── Button tactile ─────────────────────────────────────────────────── */
+.btn-tactile {
+  transition: background-color 150ms var(--ease-out-quart),
+              color 150ms var(--ease-out-quart),
+              transform 100ms var(--ease-out-expo);
+}
+.btn-tactile:active {
+  transform: scale(0.97);
+}
+
+/* ── Nav tab ────────────────────────────────────────────────────────── */
+.nav-tab {
+  transition: color 200ms var(--ease-out-quart);
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

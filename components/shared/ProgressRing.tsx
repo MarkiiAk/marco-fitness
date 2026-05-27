@@ -10,14 +10,13 @@ interface ProgressRingProps {
   label: string
   unit?: string
   delay?: number
-  /** Override color logic — useful for deficit which has a different "good" range */
   colorOverride?: string
 }
 
 export default function ProgressRing({
   value,
   max,
-  size = 88,
+  size = 90,
   strokeWidth = 7,
   label,
   unit = '',
@@ -38,16 +37,16 @@ export default function ProgressRing({
 
   const strokeColor = colorOverride
     ?? (pct >= 1
-      ? 'oklch(0.72 0.18 15)'      // rose — over limit
+      ? 'oklch(0.72 0.18 15)'
       : pct >= 0.9
-        ? 'oklch(0.83 0.16 83)'    // amber — close to limit
-        : 'oklch(0.696 0.17 162)'  // emerald — nominal
+        ? 'oklch(0.83 0.16 83)'
+        : 'oklch(0.696 0.17 162)'
     )
 
   const displayValue = Math.round(value).toLocaleString()
 
   return (
-    <div className="flex flex-col items-center gap-2.5">
+    <div className="flex flex-col items-center gap-3">
       <div className="relative" style={{ width: size, height: size }}>
         <svg
           width={size}
@@ -57,39 +56,36 @@ export default function ProgressRing({
         >
           {/* Track */}
           <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
+            cx={size / 2} cy={size / 2} r={radius}
             fill="none"
-            stroke="oklch(0.235 0 0)"
+            stroke="oklch(0.21 0.008 74)"
             strokeWidth={strokeWidth}
           />
-          {/* Fill */}
+          {/* Fill — respira cuando está activo */}
           <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
+            cx={size / 2} cy={size / 2} r={radius}
             fill="none"
             stroke={strokeColor}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={offset}
+            className={pct > 0.05 ? 'ring-breathe' : ''}
             style={{
               transition: mounted
-                ? 'stroke-dashoffset 800ms cubic-bezier(0.16, 1, 0.3, 1)'
+                ? 'stroke-dashoffset 900ms cubic-bezier(0.16, 1, 0.3, 1)'
                 : 'none',
             }}
           />
         </svg>
 
         {/* Valor centrado */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-0.5">
+        <div className="absolute inset-0 flex items-center justify-center">
           <span
             className="font-bold text-white leading-none tabular-nums"
             style={{
               fontFamily: 'var(--font-geist-mono)',
-              fontSize: size >= 88 ? '1rem' : '0.8rem',
+              fontSize: size >= 90 ? '1.05rem' : '0.85rem',
               letterSpacing: '-0.02em',
             }}
           >
@@ -98,7 +94,7 @@ export default function ProgressRing({
         </div>
       </div>
 
-      <p className="text-[10px] font-semibold text-zinc-500 uppercase tracking-[0.15em]">
+      <p className="text-[10px] font-semibold text-zinc-600 uppercase tracking-[0.18em]">
         {label}
       </p>
     </div>
