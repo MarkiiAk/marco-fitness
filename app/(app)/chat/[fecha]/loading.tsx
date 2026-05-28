@@ -4,7 +4,7 @@ function Skeleton({ className }: { className?: string }) {
 
 export default function ChatLoading() {
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] md:h-[calc(100vh-40px)]">
+    <div className="flex flex-col h-[calc(100dvh-160px)] md:h-[calc(100dvh-48px)]">
       <div className="pt-2 pb-4 border-b border-white/[0.06] space-y-1">
         <Skeleton className="h-3 w-10 rounded-md" />
         <Skeleton className="h-6 w-16 rounded-lg" />

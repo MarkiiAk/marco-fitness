@@ -124,6 +124,22 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 6%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* ── Zinc text — restaurar a near-white en dark mode ────────────────
+     :root los sobreescribió para light mode. Dark mode los necesita claros. */
+  --color-zinc-50:  oklch(0.985 0 0);
+  --color-zinc-200: oklch(0.898 0 0);
+  --color-zinc-300: oklch(0.808 0 0);
+  --color-zinc-400: oklch(0.709 0 0);
+  --color-zinc-500: oklch(0.556 0 0);
+  --color-zinc-600: oklch(0.442 0 0);
+  --color-zinc-700: oklch(0.371 0 0);
+
+  /* ── Zinc backgrounds — warm dark ──────────────────────────────────── */
+  --color-zinc-950: oklch(0.105 0.009 82);
+  --color-zinc-900: oklch(0.16 0.009 78);
+  --color-zinc-800: oklch(0.21 0.008 74);
+  --color-zinc-700: oklch(0.27 0.007 70);
 }
 
 @layer base {

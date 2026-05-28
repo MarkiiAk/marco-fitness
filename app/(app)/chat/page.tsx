@@ -21,7 +21,7 @@ export default async function ChatPage() {
   if (!sessions?.length) {
     // Sin sesiones — mostrar chat vacío del día
     return (
-      <div className="flex flex-col h-[calc(100vh-80px)] md:h-[calc(100vh-40px)]">
+      <div className="flex flex-col h-[calc(100dvh-160px)] md:h-[calc(100dvh-48px)]">
         <div className="pt-2 pb-4 border-b border-white/[0.06]">
           <p className="text-[11px] font-semibold text-zinc-600 uppercase tracking-[0.1em] mb-1">Chat</p>
           <h1 className="text-xl font-bold text-zinc-50 tracking-tight leading-none">Hoy</h1>
@@ -58,7 +58,7 @@ export default async function ChatPage() {
   const latestFecha = sessions[0].fecha
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] md:h-[calc(100vh-40px)]">
+    <div className="flex flex-col h-[calc(100dvh-160px)] md:h-[calc(100dvh-48px)]">
       <div className="pt-2 pb-4 border-b border-white/[0.06]">
         <p className="text-[11px] font-semibold text-zinc-600 uppercase tracking-[0.1em] mb-1">Chat</p>
         <h1 className="text-xl font-bold text-zinc-50 tracking-tight leading-none">Últimos 4 días</h1>

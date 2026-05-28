@@ -33,7 +33,7 @@ export default async function ChatFechaPage({ params }: { params: Promise<{ fech
   const isToday = fecha === todayISO()
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] md:h-[calc(100vh-40px)]">
+    <div className="flex flex-col h-[calc(100dvh-160px)] md:h-[calc(100dvh-48px)]">
       {/* Header */}
       <div className="pt-2 pb-4 border-b border-white/[0.06]">
         <p className="text-[11px] font-semibold text-zinc-600 uppercase tracking-[0.1em] mb-1">Chat</p>
