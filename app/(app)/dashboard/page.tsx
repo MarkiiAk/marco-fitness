@@ -5,6 +5,7 @@ import ProgressRing from '@/components/shared/ProgressRing'
 import WeightChart from '@/components/dashboard/WeightChart'
 import WorkoutWeekView from '@/components/dashboard/WorkoutWeekView'
 import ThemeToggle from '@/components/shared/ThemeToggle'
+import LiveClock from '@/components/shared/LiveClock'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -15,14 +16,6 @@ export default async function DashboardPage() {
   if (!user) redirect('/login')
 
   const today = todayISO()
-
-  // Hora CDMX
-  const nowCDMX = new Date().toLocaleTimeString('es-MX', {
-    timeZone: 'America/Mexico_City',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  })
 
   const todayDate = new Date(today + 'T12:00:00')
   const dayOfWeek = todayDate.getDay()
@@ -91,18 +84,13 @@ export default async function DashboardPage() {
       {/* ── Header — minimalista, solo datos ─────────────────────────
            Sin "Hoy" gritando. La fecha y la hora. El dato habla solo. */}
       <div className="pt-5 pb-10 flex items-start justify-between">
-        <p className="text-sm font-medium text-zinc-400 capitalize leading-tight">
+        <p className="text-sm font-medium text-zinc-300 capitalize leading-tight">
           {new Date(today + 'T12:00:00').toLocaleDateString('es-MX', {
             weekday: 'long', day: 'numeric', month: 'long'
           })}
         </p>
         <div className="flex items-center gap-3">
-          <span
-            className="text-sm font-medium text-zinc-500 tabular-nums"
-            style={{ fontFamily: 'var(--font-geist-mono)' }}
-          >
-            {nowCDMX}
-          </span>
+          <LiveClock />
           {/* ThemeToggle visible solo en mobile (md:hidden), en desktop va en sidebar */}
           <div className="md:hidden">
             <ThemeToggle />
@@ -113,7 +101,7 @@ export default async function DashboardPage() {
       {/* ── Peso — flota en el fondo, sin card ───────────────────────
            Oura-like: el número sobre el fondo oscuro directamente. */}
       <div className="mb-14">
-        <p className="text-[10px] font-semibold text-zinc-500 uppercase tracking-[0.18em] mb-4">
+        <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.18em] mb-4">
           Peso
         </p>
 
@@ -143,17 +131,17 @@ export default async function DashboardPage() {
           ) : null}
 
           {tw ? (
-            <span className="text-xs text-zinc-600">
+            <span className="text-xs text-zinc-500">
               meta {pesoMeta} kg
               {tw.cintura_cm ? (
-                <span className="ml-3 text-zinc-700">
+                <span className="ml-3 text-zinc-500">
                   cintura {tw.cintura_cm} cm
                 </span>
               ) : null}
             </span>
           ) : (
             <Link href="/registrar/peso"
-              className="text-xs text-zinc-600 hover:text-emerald-400 transition-colors">
+              className="text-xs text-zinc-500 hover:text-emerald-400 transition-colors">
               Sin registro · anotar →
             </Link>
           )}
@@ -188,7 +176,7 @@ export default async function DashboardPage() {
       {/* ── Entreno — inline, sin card ───────────────────────────────── */}
       <div className="flex items-center justify-between mb-14 px-1">
         <div>
-          <p className="text-[10px] font-semibold text-zinc-600 uppercase tracking-[0.18em] mb-2">
+          <p className="text-[10px] font-semibold text-zinc-500 uppercase tracking-[0.18em] mb-2">
             Entreno
           </p>
           {todayWorkout ? (
@@ -196,7 +184,7 @@ export default async function DashboardPage() {
               {(todayWorkout as any).tipo.replaceAll('_', ' ')}
             </p>
           ) : (
-            <p className="text-sm text-zinc-700">Sin registro</p>
+            <p className="text-sm text-zinc-500">Sin registro</p>
           )}
         </div>
 
@@ -221,7 +209,7 @@ export default async function DashboardPage() {
       {/* ── Curva de peso ────────────────────────────────────────────── */}
       {weightHistory && weightHistory.length > 1 && (
         <div className="mb-14">
-          <p className="text-[10px] font-semibold text-zinc-600 uppercase tracking-[0.18em] mb-5 px-1">
+          <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.18em] mb-5 px-1">
             Progreso
           </p>
           <WeightChart

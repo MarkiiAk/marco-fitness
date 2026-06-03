@@ -39,7 +39,7 @@ export default async function WorkoutWeekView({ userId }: WorkoutWeekViewProps) 
 
   return (
     <div className="px-1">
-      <p className="text-[10px] font-semibold text-zinc-600 uppercase tracking-[0.18em] mb-5">
+      <p className="text-[10px] font-semibold text-zinc-500 uppercase tracking-[0.18em] mb-5">
         Semana
       </p>
       <div className="grid grid-cols-7 gap-1.5">
@@ -56,7 +56,7 @@ export default async function WorkoutWeekView({ userId }: WorkoutWeekViewProps) 
             <div key={fecha} className="flex flex-col items-center gap-2">
               <span className={cn(
                 'text-[10px] font-semibold uppercase tracking-widest',
-                isToday ? 'text-zinc-400' : 'text-zinc-700'
+                isToday ? 'text-zinc-200' : 'text-zinc-500'
               )}>
                 {DIAS[i]}
               </span>
@@ -65,8 +65,8 @@ export default async function WorkoutWeekView({ userId }: WorkoutWeekViewProps) 
                 isSuccess && 'bg-emerald-500/20 text-emerald-400',
                 !isSuccess && isToday && isGymDay && 'bg-amber-500/10 text-amber-400',
                 !isSuccess && isPast && isGymDay && 'bg-rose-500/10 text-rose-500/60',
-                !isSuccess && !isPast && isGymDay && !isToday && 'bg-zinc-800/30 text-zinc-700',
-                isRestDay && 'text-zinc-800',
+                !isSuccess && !isPast && isGymDay && !isToday && 'bg-zinc-800/30 text-zinc-500',
+                isRestDay && 'text-zinc-600',
               )}>
                 {isSuccess ? '✓' : isRestDay ? '·' : isToday ? '·' : isPast ? '✗' : '·'}
               </div>
