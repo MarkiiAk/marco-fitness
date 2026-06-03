@@ -75,8 +75,8 @@ export default function ChatClient({ initialMessages, fecha }: { initialMessages
       <div className="flex-1 overflow-y-auto py-4 space-y-3">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center">
-            <p className="text-zinc-600 text-sm">Sin mensajes hoy</p>
-            <p className="text-zinc-700 text-xs mt-1">Escribe lo que comiste o pregunta algo</p>
+            <p className="text-zinc-400 text-sm">Sin mensajes hoy</p>
+            <p className="text-zinc-500 text-xs mt-1">Escribe lo que comiste o pregunta algo</p>
           </div>
         )}
 
@@ -86,7 +86,7 @@ export default function ChatClient({ initialMessages, fecha }: { initialMessages
             {msg.role === 'date-separator' ? (
               <div className="flex items-center gap-3 my-4">
                 <div className="flex-1 h-px bg-white/[0.06]" />
-                <span className="text-[10px] font-semibold text-zinc-600 uppercase tracking-wider capitalize">
+                <span className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider capitalize">
                   {msg.content}
                 </span>
                 <div className="flex-1 h-px bg-white/[0.06]" />
@@ -110,11 +110,11 @@ export default function ChatClient({ initialMessages, fecha }: { initialMessages
                         <div className="flex items-center gap-1.5">
                           <div className="flex gap-1">
                             {[0, 1, 2].map(j => (
-                              <div key={j} className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-pulse"
+                              <div key={j} className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-pulse"
                                    style={{ animationDelay: `${j * 150}ms` }} />
                             ))}
                           </div>
-                          <span className="text-zinc-600 text-xs">Procesando ~5 min</span>
+                          <span className="text-zinc-400 text-xs">Procesando ~5 min</span>
                         </div>
                       ) : (
                         <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -128,11 +128,11 @@ export default function ChatClient({ initialMessages, fecha }: { initialMessages
                       <div className="flex items-center gap-1.5">
                         <div className="flex gap-1">
                           {[0, 1, 2].map(j => (
-                            <div key={j} className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-pulse"
+                            <div key={j} className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-pulse"
                                  style={{ animationDelay: `${j * 150}ms` }} />
                           ))}
                         </div>
-                        <span className="text-zinc-600 text-xs">Procesando ~5 min</span>
+                        <span className="text-zinc-400 text-xs">Procesando ~5 min</span>
                       </div>
                     </div>
                   </div>
@@ -154,7 +154,7 @@ export default function ChatClient({ initialMessages, fecha }: { initialMessages
             placeholder="Escribe lo que comiste, pregunta algo..."
             rows={1}
             className="flex-1 px-4 py-3 bg-zinc-900/80 border border-white/[0.06] rounded-2xl text-zinc-200
-                       placeholder-zinc-600 text-sm resize-none focus:outline-none focus:border-emerald-500/50
+                       placeholder-zinc-500 text-sm resize-none focus:outline-none focus:border-emerald-500/50
                        max-h-32 overflow-y-auto"
             style={{ fieldSizing: 'content' } as React.CSSProperties}
           />
@@ -168,7 +168,7 @@ export default function ChatClient({ initialMessages, fecha }: { initialMessages
             <Send size={16} className="text-white" strokeWidth={2} />
           </button>
         </div>
-        <p className="text-[10px] text-zinc-700 mt-2 text-center">
+        <p className="text-[10px] text-zinc-500 mt-2 text-center">
           Las respuestas llegan en ~5 min · Enter para enviar
         </p>
       </div>
